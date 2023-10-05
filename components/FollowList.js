@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Card } from "antd";
+import { List, Card, Button } from "antd";
 import PropTypes from "prop-types";
 import { StopOutlined } from "@ant-design/icons";
 
@@ -12,7 +12,7 @@ const FollowList = ({ header, data }) => {
       header={<div>{header}</div>}
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
-          <button>더보기</button>
+          <Button>더보기</Button>
         </div>
       }
       bordered
@@ -32,7 +32,5 @@ FollowList.propTypes = {
   header: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
 };
-
-// 2023. 10. 05 오후 5 : 10  프로필 페이지 만들기 8 : 13
 
 export default FollowList;
