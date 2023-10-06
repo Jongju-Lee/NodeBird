@@ -2,28 +2,21 @@ import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import AppLayout from "../components/AppLayout";
 import { Form, Input, Checkbox, Button } from "antd";
+import useInput from "../hooks/useInput";
+import styled from "styled-components";
 
-// 회원가입 페이지 만들기(커스텀 훅) 10 : 10
-// 2023. 10. 06 오전 01 : 22
+const ErrorMessage = styled.div`
+  color: red;
+`;
 
 const Signup = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [id, onChangeId] = useInput("");
+  const [nickname, onChangeNickname] = useInput("");
+  const [password, onChangePassword] = useInput("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
-
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
-
-  const onChangeNickName = useCallback((e) => {
-    setNickname(e.target.value);
-  }, []);
+  const [term, setTerm] = useState("");
+  const [termError, setTermError] = useState(false);
 
   const onChangePasswordCheck = useCallback(
     (e) => {
@@ -33,9 +26,20 @@ const Signup = () => {
     [password]
   );
 
-  const onSubmit = useCallback(() => {
-    // onFinish 함수라서 e.preventDefault 자동적용됨.
+  const onChangeTerm = useCallback((e) => {
+    setTerm(e.target.checked);
+    setTermError(false);
   }, []);
+
+  const onSubmit = useCallback(() => {
+    if (password !== passwordCheck) {
+      return setPasswordError(true);
+    }
+    if (!term) {
+      return setTermError(true);
+    }
+    console.log(id, nickname, password);
+  }, [password, passwordCheck, nickname, term]);
 
   return (
     <AppLayout>
@@ -55,11 +59,11 @@ const Signup = () => {
             name="user-nick"
             value={nickname}
             required
-            onChange={onChangeNickName}
+            onChange={onChangeNickname}
           />
         </div>
         <div>
-          <label htmlFor="user-password">아이디</label>
+          <label htmlFor="user-password">비밀번호</label>
           <br />
           <Input
             name="user-password"
@@ -79,6 +83,22 @@ const Signup = () => {
             required
             onChange={onChangePasswordCheck}
           />
+          {passwordError && (
+            <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          )}
+        </div>
+        <div>
+          <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
+            약관을 동의합니다.
+          </Checkbox>
+          {termError && (
+            <ErrorMessage>약관에 동의하셔야 진행 가능합니다.</ErrorMessage>
+          )}
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Button type="primary" htmlType="submit">
+            가입하기
+          </Button>
         </div>
       </Form>
     </AppLayout>
