@@ -14,9 +14,6 @@ const SearchInput = styled(Input.Search)`
 const AppLayout = ({ children }) => {
   const { isLoggedIn } = useSelector((state) => state.user);
 
-  // 2023. 10. 07 12 : 45 ' dummyData & postForm
-  // 2023. 10. 08 20 : 41 'eleven'
-
   return (
     <div>
       <Menu mode="horizontal">
