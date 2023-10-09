@@ -14,6 +14,7 @@ const PostCard = ({ post }) => {
     <div>
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
+        // 2023. 10. 09  01 : 04 "게시글 구현하기 11: 24"
         actions={[
           <RetweetOutlined key="retweet" />,
           <HeartOutlined key="heart" />,
